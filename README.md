@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img width="80" src="https://avatars.githubusercontent.com/u/99663083?v=4">
+    <img width="80" src="https://user-images.githubusercontent.com/99663083/191799790-a018c61b-4bfa-4e2b-b8fe-4ccf5d175756.png">
   </p>
   <h1>The Y Programming Language</h1>
   <div>
