@@ -1,7 +1,7 @@
 /*
- > Code by Ice Code Team
- > Shard lang
- > https://github.com/Ice-Code-Team/shard-lang
+ > Code by Icy
+ > Y lang
+ > https://github.com/The-Y-Programming-Language/y
  > Lexer
 */
 
@@ -44,7 +44,16 @@ typedef enum SingleCharTokenTypes {
     STT_PLUS_OP,
     STT_MINUS_OP,
     STT_TIMES_OP,
-    STT_DIV_OP
+    STT_DIV_OP,
+    STT_MODULO_OP,
+
+    // Others (SYM) ----------------------------------------------------------------
+
+    STT_MEMORY_ADDRESS_SYM,
+    STT_NO_SYM,
+    STT_COMMA_SYM,
+    STT_COLON_SYM,
+    STT_IS_SYM
 } SingleCharTokenType;
 
 // Type (enum) of all multiple chars token types
@@ -94,6 +103,8 @@ typedef enum VariableValueTokenTypes {
     VTT_NUM
 } VariableValueTokenType;
 
+using TokenType = std::variant<SingleCharTokenType, MultipleCharsTokenType, VariableValueTokenTypes>;
+
 // Token type lists ----------------------------------------------------------------
 
 // List of all single char token types
@@ -112,12 +123,18 @@ SingleCharTokenType singleCharTokenTypes_list[] = {
 
     STT_GREATER_SYM,
     STT_LESS_SYM,
-    STT_FOR_STMT,
 
     STT_PLUS_OP,
     STT_MINUS_OP,
     STT_TIMES_OP,
-    STT_DIV_OP
+    STT_DIV_OP,
+    STT_MODULO_OP,
+
+    STT_MEMORY_ADDRESS_SYM,
+    STT_NO_SYM,
+    STT_COMMA_SYM,
+    STT_COLON_SYM,
+    STT_IS_SYM
 };
 
 // List of all multiple chars token types
@@ -131,6 +148,7 @@ MultipleCharsTokenType multipleCharsTokenTypes_list[] = {
     MTT_BOOL_TYP,
     MTT_CHR_TYP,
     MTT_CONST_TYP,
+    MTT_UNTYPED_TYP,
 
     MTT_IS_EQUAL_SYM,
     MTT_ASSIGN_SYM,
@@ -154,11 +172,11 @@ VariableValueTokenType variableValueTokenTypes_list[] = {
 // Token lists ----------------------------------------------------------------
 
 std::string singleCharTokens_values_list[] = {
-  "(", ")", "\"", "'", "[", "]", "{", "}", ".", ";", ">", "<", "+", "-", "*", "/"
+  "(", ")", "\"", "'", "[", "]", "{", "}", ".", ";", ">", "<", "+", "-", "*", "/", "%", "&", "!", ",", ":", "?"
 };
 
 std::string multipleCharsTokens_values_list[] = {
-  "/*", "*/", "int", "double", "str", "bool", "chr", "const", "idf","==", "<<", ">=", "<=", "if", "elseif", "else", "do", "while", "for"
+  "/*", "*/", "int", "double", "str", "bool", "chr", "const", "udf", "==", "<<", ">=", "<=", "if", "elseif", "else", "do", "while", "for"
 };
 
 std::string variableValueTokens_values_list[] = {
@@ -194,20 +212,18 @@ class Token {
     public:
         Token(std::string code) {
             code_to_tokenize = split(code, ' ');
-            std::vector<std::variant<SingleCharTokenType, MultipleCharsTokenType, VariableValueTokenType>> all_tokens = {};
         }
 
         void run() {
             bool success;
             for(std::string tokenizing : code_to_tokenize) {
-                std::cout << "..._.-._...\nTokenizing: " << tokenizing << std::endl;
+                std::cout << ".........\nTokenizing: '" << tokenizing << "'" << std::endl;
                 if(tokenizing.size() == 1) {
                     get_singlechar_token(tokenizing, &success);
                     if(!success) {
                         get_variablevalue_token(tokenizing, &success);
-                        if(!success) {
+                        if(!success)
                             throw std::runtime_error("Invalid token");
-                        }
                     }
                 }
                 else {
@@ -215,18 +231,27 @@ class Token {
                     if(!success) {
                         get_variablevalue_token(tokenizing, &success);
                         if(!success) {
-                            throw std::runtime_error("Invalid token");
+                            get_singlechar_token_in_multiplechar(tokenizing, &success);
+                            if(!success)
+                                throw std::runtime_error("Invalid token");
                         }
                     }
                 }
             }
+            for(std::string temp : all_tokens_strings) {
+                std::cout << temp << std::endl;
+            }
+            std::cout << sizeof(all_tokens) / sizeof(all_tokens[0]) << std::endl;
         }
 
         void get_singlechar_token(std::string token, bool *success) {
-            for(int i = 0; i < singleCharTokens_values_list->size(); i++) {
+            for(int i = 0; i < sizeof(singleCharTokens_values_list) / sizeof(singleCharTokens_values_list[0]); i++) {
+                std::cout << "Is \"" << token << "\" equal to \"" << singleCharTokens_values_list[i] << "\"?" << std::endl;
                 if(token == singleCharTokens_values_list[i]) {
                     InsertToken(singleCharTokenTypes_list[i], token);
                     *success = true;
+                    all_tokens_strings.push_back(token);
+                    std::cout << token << " is in !" << std::endl;
                     return;
                 }
             }
@@ -239,56 +264,44 @@ class Token {
                 if(token == multipleCharsTokens_values_list[i]) {
                     InsertToken(multipleCharsTokenTypes_list[i], token);
                     *success = true;
+                    all_tokens_strings.push_back(token);
                     return;
                 }
             }
             *success = false;
         }
 
-        /*bool get_singlechar_token(std::string tok) {
-            for(int i_singlechar = 0; i_singlechar < singleCharTokens_values_list->size(); i_singlechar++) {
-                std::cout << "Comparing " << tok << " with " << singleCharTokens_values_list[i_singlechar] << std::endl;
-                if(tok == singleCharTokens_values_list[i_singlechar]) {
-                    all_tokens.insert(all_tokens.end(), singleCharTokenTypes_list[i_singlechar]);
-                    std::cout << "Added " << tok << " = " << singleCharTokens_values_list[i_singlechar][0] << " to singlechar token list " << singleCharTokens_values_list[i_singlechar] << std::endl;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        bool get_multiplechars_token(std::string tok) {
-            for(int i_multiplechars = 0; i_multiplechars < multipleCharsTokens_values_list->size(); i_multiplechars++) {
-                if(tok == multipleCharsTokens_values_list[i_multiplechars]) {
-                    all_tokens.insert(all_tokens.end(), multipleCharsTokenTypes_list[i_multiplechars]);
-                    std::cout << "Added to multiplechars token list " << multipleCharsTokens_values_list[i_multiplechars] << std::endl;
-                    return true;
-                }
-            }
-            return false;
-        }*/
-
-        void get_variablevalue_token(std::string tok, bool *success) {
-            if(isNumber(tok)) {
+        void get_variablevalue_token(std::string token, bool *success) {
+            if(isNumber(token)) {
                 all_tokens.insert(all_tokens.end(), VTT_NUM);
-                variableValueTokens_values_used_numbers_list.insert(variableValueTokens_values_used_numbers_list.end(), std::stoi(tok));
-                std::cout << "Added to variablevalue token list " << tok << std::endl;
+                variableValueTokens_values_used_numbers_list.insert(variableValueTokens_values_used_numbers_list.end(), std::stoi(token));
+                std::cout << "Added to variablevalue token list " << token << std::endl;
                 *success = true;
+                all_tokens_strings.push_back(token);
                 return;
             }
-            else if(isWord(tok)) {
+            else if(isWord(token)) {
                 all_tokens.insert(all_tokens.end(), VTT_WORD);
-                variableValueTokens_values_used_strings_list.insert(variableValueTokens_values_used_strings_list.end(), tok);
-                std::cout << "Added to variablevalue token list " << tok << std::endl;
+                variableValueTokens_values_used_strings_list.insert(variableValueTokens_values_used_strings_list.end(), token);
+                std::cout << "Added to variablevalue token list " << token << std::endl;
                 *success = true;
+                all_tokens_strings.push_back(token);
                 return;
             }
             else {
-                std::cout << "Error: " << tok << " is not a valid variable value token" << std::endl;
+                std::cout << "Error: " << token << " is not a valid variable value token" << std::endl;
                 *success = false;
+                all_tokens_strings.push_back(token);
                 return;
             }
             *success = false;
+        }
+
+        void get_singlechar_token_in_multiplechar(std::string token, bool *success) {
+            for(char chr : token) {
+                std::cout << chr << std::endl;
+                get_singlechar_token(std::string(1, chr), success);
+            }
         }
 
         void print_tokens() {
@@ -317,7 +330,9 @@ class Token {
         // The code to tokenize
         std::vector<std::string> code_to_tokenize;
         // The vector of all tokens found
-        std::vector<std::variant<SingleCharTokenType, MultipleCharsTokenType, VariableValueTokenType>> all_tokens;
+        std::vector<TokenType> all_tokens;
+        // The vector of all string tokens found
+        std::vector<std::string> all_tokens_strings;
 };
 
 // Main variables declaration ----------------------------------------------------------------
@@ -335,7 +350,8 @@ int main()
 {
     InsertAllTokens();
     // PrintTokens();
-    TokenizeCode("int a << ( ) 8");
+    TokenizeCode("int a << 8");
+    TokenizeCode("udf temp << [6, 7, 8]");
     std::cout << "Tokenizing code finished" << std::endl;
     return 0;
 }
@@ -419,6 +435,6 @@ void TokenizeCode(std::string code) {
         std::cout << "Tokenizing line: \"" << line_chunks[i] << "\"" << std::endl;
         Token tkn = Token(line_chunks[i]);
         tkn.run();
-        //tkn.print_tokens();
+        // tkn.print_tokens();
     }
 }
