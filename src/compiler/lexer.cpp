@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <variant>
-#include <map>
 
 // #include "lexer.h"
 
@@ -103,14 +101,14 @@ namespace Lexer {
 			}
 			else if (*is_string)
 				string_buffer += value;
-			else if (value == SPACE or value == END)
+			else if (value == SPACE || value == END)
 				return true;
 			else if (isdigit(value)) {
 				num_buffer += value;
 				*is_number = true;
 			}
 			else if (value == POINT) {
-				if (num_buffer.size() > 0 and num_buffer.find(value) == std::string::npos)
+				if (num_buffer.size() > 0 && num_buffer.find(value) == std::string::npos)
 					num_buffer += value;
 				else
 					throw InvalidNumberLitteral(*actual_token_buffer);
@@ -137,11 +135,16 @@ namespace Lexer {
 	};
 
 	std::vector<std::string> keywords = {
-		"int", "double", "char", "bool", "str", "udf", // Types
-		"+", "-", "*", "/", "**", // Operators
+		"int", "double", "char", "bool", "str", "const", "udf", // Types
+		"+", "-", "*", "/", "%", "**", "=", // Operators
 		"and", "or", "not", "xor", // Booleans operators
-		"band", "bor", "bnot", "bxor", // Bits operators
-		"for", "while", "do", "in", "break", "continue"
+		"&", "|", "~", "^", // Bitwise operators
+		"for", "while", "do", "break", "continue", // Loops
+		"if", "elsif", "else", "switch", "case", "default", "==", // Statements
+		"class", "typedef", "public", "protected", "private", "self", "super", // Object Oriented
+		"try", "catch", "even", "raise", // Errors
+		"return", "yield", // Return
+		"codespace", "use" // Spaces and Imports
 		// https://www.programiz.com/cpp-programming/keywords-identifiers
 	};
 
@@ -149,7 +152,7 @@ namespace Lexer {
 
 int main()
 {
-    Lexer::Token lex  = Lexer::Token("Hello 1.23 comment tu vas ? \"ahahah\"");
-    lex.Run();
+	Lexer::Token lex  = Lexer::Token("Hello 1.23 comment tu vas ? \"ahahah\"");
+	lex.Run();
 	lex.PrintTokens();
 }
