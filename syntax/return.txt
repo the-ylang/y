@@ -1,0 +1,7 @@
+- Return Statements
+
+return
+  Returns the value of the expression to the calling function
+
+yield
+  Adds the value of the expression to the generator object

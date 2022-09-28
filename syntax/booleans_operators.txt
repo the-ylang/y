@@ -1,0 +1,27 @@
+- Booleans Operators List
+
+and
+ - True if both operands are true
+ 0 and 0 = 0
+ 0 and 1 = 0
+ 1 and 0 = 0
+ 1 and 1 = 1
+
+or
+  - True if either operand is true
+  0 or 0 = 0
+  0 or 1 = 1
+  1 or 0 = 1
+  1 or 1 = 1
+
+not
+  - True if operand is false
+  not 0 = 1
+  not 1 = 0
+
+xor
+  - True if only one operand is true
+  0 xor 0 = 0
+  0 xor 1 = 1
+  1 xor 0 = 1
+  1 xor 1 = 0

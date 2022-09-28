@@ -1,0 +1,13 @@
+- Loops
+
+  - Loops Types
+    for( int i << 0; i < iterable.len(); i++ ) { // do something }
+    for( udf iterator ::  iterable ) { // do something }
+
+    while( condition ) { // do something }
+
+    do { // do something } while( condition )
+
+  - Loops Modifiers
+    break : break out of the current loop
+    continue : skip the current iteration

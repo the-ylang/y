@@ -1,0 +1,21 @@
+- Bitwise Operators
+
+band
+- Bitwise AND
+ Example :  
+  5 & 3 = 1 (0101 & 0011 = 0001)
+
+bor
+- Bitwise OR
+ Example :  
+  5 | 3 = 7 (0101 | 0011 = 0111)
+
+bnot
+- Bitwise NOT
+ Example :  
+  ~5 = -6 ( ~0101 = 1010 + 1 = 1011 = -6)
+
+bxor
+- Bitwise XOR
+ Example :  
+  5 ^ 3 = 6 (0101 ^ 0011 = 0110)

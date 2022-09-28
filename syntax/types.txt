@@ -1,0 +1,20 @@
+- Declaration :
+
+[const] <type> <name>;
+
+- Assignation :
+
+<name> << <value>;
+
+- Declaration and Assignation
+
+[const] <type> <name> << <value>;
+
+- Values
+
+type  : int, double, char, str, bool, udf
+name  : [a-zA-Z_][a-zA-Z0-9_]*
+value : ...
+
+<> : mandatory
+[] : optional

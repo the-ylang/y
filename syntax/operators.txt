@@ -1,0 +1,35 @@
+- Operators list :
+
++  : Addition
+  Works with :
+  - 2 numbers
+  - 2 strings
+  - 2 lists
+
+-  : Subtraction
+  Works with :
+  - 2 numbers
+
+*  : Multiplication
+  Works with :
+  - 2 numbers
+  - 1 string and 1 number
+  - 1 list and 1 number
+
+/  : Division
+  Works with :
+  - 2 numbers
+
+%  : Modulo
+  Works with :
+  - 2 numbers
+
+** : Exponentiation
+  Works with :
+  - 2 numbers
+  
+= : Equality
+  Works with :
+  - 2 numbers
+  - 2 strings
+  - 2 lists

@@ -1,0 +1,27 @@
+- Object Oriented
+
+- Object Types
+  class
+    Use : class <name> [<< inherit_class] { // values and methods }
+    Example : class myClass << myClassGeneralClass { // values and methods }
+
+  typedef
+    Use : typedef <name> { // values and methods }
+    Example : typedef myType { // values and methods }
+
+- Access Specifiers
+  public
+    Can be accessed from everywhere
+
+  protected
+    Can only be accessed inside the class and its heritage
+
+  private
+    Can only be accessed inside the class
+
+- References
+  self
+    -> the instance of the class
+
+  super
+    -> the class inherit_class

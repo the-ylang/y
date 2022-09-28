@@ -1,0 +1,7 @@
+- Spaces and Use
+
+codespace
+  A code space is a space who contains functions, classes and variables
+
+use
+  A use statement is a statement that imports a function, class or variable from a code space or just import a codespace
