@@ -4,11 +4,11 @@
   </p>
   <h1>The Y Programming Language</h1>
   <div>
-    <img src="https://img.shields.io/badge/version-ALPHA-524fff">
-    <img src="https://img.shields.io/github/languages/code-size/The-Y-Programming-Language/y?color=green&label=size">
-    <img src="https://img.shields.io/badge/Status-In%20Progress-7aff7a">
-    <img src="https://img.shields.io/badge/Made%20in-C++-00599C?logo=cplusplus">
-    <img src="https://img.shields.io/badge/Supported-Windows%20--%20Linux%20--%20MacOS-%231c8cbc">
+    <img src="https://img.shields.io/badge/version-ALPHA-524fff?style=for-the-badge">
+    <img src="https://img.shields.io/badge/Status-In%20Progress-7aff7a?style=for-the-badge">
+    <img src="https://img.shields.io/github/languages/code-size/the-ylang/y?label=size&style=for-the-badge">
+    <img src="https://img.shields.io/badge/Made%20in-C++-00599C?logo=cplusplus&style=for-the-badge">
+    <img src="https://img.shields.io/badge/Supported-Windows%20--%20Linux%20--%20MacOS-%231c8cbc?style=for-the-badge">
   </div>
 </div>
 
@@ -28,7 +28,7 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
   - [ ] Compiler
 - [ ] Compiler Inputs
   - [ ] File-based input
-  - [x] Console-based input
+  - [] Console-based input
 - [ ] Basic Language Features
   - [ ] Variables
   - [ ] Constants
