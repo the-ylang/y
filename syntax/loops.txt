@@ -1,8 +1,12 @@
 - Loops
 
   - Loops Types
+    loop( auto i :: iterable.len() ) { // do something }
+
+    loop( condition ) { // do something }
+
     for( int i << 0; i < iterable.len(); i++ ) { // do something }
-    for( udf iterator ::  iterable ) { // do something }
+    for( auto iterator ::  iterable ) { // do something }
 
     while( condition ) { // do something }
 

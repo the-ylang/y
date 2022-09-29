@@ -1,0 +1,33 @@
+- Statements
+
+- If, elsif, else
+
+    if
+        Tests if a statment is true
+
+    elsif
+        Tests if a statment is true only if the previous "if" clause is not true
+
+    else
+        Runs the code inside only if none of the previous "if" and "elsif" clause is true
+
+    Example :
+        if('a' == 'c') {
+            stdio.outln("a = c");
+        }
+        elsif('b' == 'c') {
+            stdio.outln("b == c");
+        }
+        else {
+            stdio.outln("a != c and b != c");
+        }
+
+switch
+    Works like a multiple if, elsif, else clause and checks if a 
+case
+
+default
+
+==
+
+!=

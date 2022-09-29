@@ -1,0 +1,18 @@
+- Functions
+
+fn <type> <name>([parameters]) { // do something }
+fn <type> <name> ([parameters]) => <return expression>;
+
+return
+  Returns the value of the expression to the calling function
+
+yield
+  Adds the value of the expression to the generator object
+
+Examples :
+
+  fn str sayHello(str name) {
+    return "Your name is " + name;
+  }
+
+  fn int add(int a, int b) => a + b;

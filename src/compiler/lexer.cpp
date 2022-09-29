@@ -1,8 +1,13 @@
+/*
+ > Code by Icy
+ > Y Lang Project
+ > Github : https://github.com/the-ylang/y
+*/
+
 #include <iostream>
 #include <string>
 #include <vector>
-
-// #include "lexer.h"
+#include <map>
 
 namespace Lexer {
 
@@ -20,14 +25,6 @@ namespace Lexer {
 			return m_msg.c_str();
 		}
 	};
-
-	/*class InvalidNumberLitteral : public std::exception
-	{
-		const char* what() const throw ()
-		{
-			return "The number has an invalid litteral";
-		}
-	};*/
 
 	class Token {
 	public:
@@ -135,19 +132,25 @@ namespace Lexer {
 	};
 
 	std::vector<std::string> keywords = {
-		"int", "double", "char", "bool", "str", "const", "udf", // Types
-		"+", "-", "*", "/", "%", "**", "=", // Operators
+		"int", "double", "byte", "char", "bool", "str", "const", "auto", "udf", // Types
+		"+", "-", "*", "/", "%", "**", "=", "++", "--", // Operators
 		"and", "or", "not", "xor", // Booleans operators
 		"&", "|", "~", "^", // Bitwise operators
-		"for", "while", "do", "break", "continue", // Loops
-		"if", "elsif", "else", "switch", "case", "default", "==", // Statements
+		"loop", "for", "while", "do", "break", "continue", // Loops
+		"if", "elsif", "else", "switch", "case", "default", "==", "!=", // Statements
 		"class", "typedef", "public", "protected", "private", "self", "super", // Object Oriented
 		"try", "catch", "even", "raise", // Errors
-		"return", "yield", // Return
+		"fn", "return", "yield", // Functions
 		"codespace", "use" // Spaces and Imports
 		// https://www.programiz.com/cpp-programming/keywords-identifiers
 	};
 
+	std::pair<std::string, std::string> delimiters[] = {
+		std::make_pair("{", "}"),
+		std::make_pair("[", "]"),
+		std::make_pair("(", ")"),
+		std::make_pair("/*", "*/")
+	};
 }
 
 int main()
@@ -156,3 +159,14 @@ int main()
 	lex.Run();
 	lex.PrintTokens();
 }
+
+// No link : tact churchill
+
+/*
+"(", ")", "{", "}", "[", "]", ",", ";", // Separators
+"->", "=>", // Arrow
+"++", "--", // Incrementation
+"==", "!=", "<=", ">=", // Comparators
+"!", "?", ":", // Other
+"//", "/*", "*/" // Comments
+*/
