@@ -12,13 +12,6 @@
 #include <string>
 #include <vector>
 
-bool in(std::vector<std::string> list, std::string value) {
-    for (int i = 0; i < list.size(); i++) {
-        if (list[i] == value) {
-            return true;
-        }
-    }
-    return false;
-}
+bool in(std::vector<std::string> list, std::string value);
 
 #endif // __FEATURES_H__
