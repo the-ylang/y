@@ -6,13 +6,14 @@
 */
 
 #include "lexer.h"
+#include "cpp_ext/features.h"
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 
-namespace Lexer {
+namespace Lex {
 
     InvalidNumberLitteral::InvalidNumberLitteral(const std::string num_buffer)
         : m_msg("The number " + num_buffer + " has an invalid litteral")
@@ -106,7 +107,7 @@ namespace Lexer {
         if (num_buffer != EMPTY_STRING)
             tokens.push_back(std::make_pair(num_buffer, 0));
         else if (word_buffer != EMPTY_STRING) {
-            if (std::find(keywords.begin(), keywords.end(), word_buffer) != keywords.end())
+            if (in(keywords, word_buffer))
                 tokens.push_back(std::make_pair(word_buffer, 3));
             else
                 tokens.push_back(std::make_pair(word_buffer, 1));

@@ -5,14 +5,13 @@
  > Main File
 */
 
-#include "lexer.h"
+#include "compiler/lexer.h"
 
 #include <string>
 #include <vector>
 
-
 int main() {
-	Lexer::Lexer lex = Lexer::Lexer("protected int myInt << 12 ;");
+	Lex::Lexer lex = Lex::Lexer("protected int myInt << 12 ;");
 	lex.Run();
 	lex.PrintTokens();
 }

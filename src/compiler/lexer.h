@@ -13,7 +13,7 @@
 #include <vector>
 #include <map>
 
-namespace Lexer {
+namespace Lex {
 
 	// Exception called when a number has an invalid litteral
 	class InvalidNumberLitteral : public std::exception
