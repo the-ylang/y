@@ -23,12 +23,12 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
 ## Roadmap
 
 - [ ] Compiler Configuration
-  - [ ] Lexer
+  - [x] Lexer
   - [ ] Parser
   - [ ] Compiler
 - [ ] Compiler Inputs
   - [ ] File-based input
-  - [] Console-based input
+  - [ ] Console-based input
 - [ ] Basic Language Features
   - [ ] Variables
   - [ ] Constants
@@ -42,3 +42,5 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
   - [ ] Basic Input/Output
   - [ ] OS Interactions
   - [ ] JSON Files Interactions
+
+`Roadmap updated on 2022.10.01`
