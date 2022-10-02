@@ -117,20 +117,4 @@ namespace Lex {
 
         num_buffer = EMPTY_STRING; word_buffer = EMPTY_STRING; string_buffer = EMPTY_STRING;
     }
-
-    std::vector<std::string> Lexer::split(std::string string_to_split, char delimiter) {
-        std::vector<std::string> splitted_string;
-        int index_split = 0;
-        std::string buffer;
-        for (char iter : string_to_split) {
-            if (iter == delimiter) {
-                splitted_string.push_back(buffer);
-                index_split++;
-            }
-            else
-                buffer += iter;
-        }
-
-        return splitted_string;
-    }
 }

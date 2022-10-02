@@ -28,7 +28,8 @@ namespace Pars {
     private:
         std::vector<std::pair<std::string, int>> tokens;
         std::vector<std::string> keywords;
-        bool isDeclaration() {
+        // Returns 0 if it is not a declaration, 1 if it is a variable declaration, 2 if it is a constant declaration
+        int isDeclaration() {
             if(
                 ( // Case protected/private/public
                     ( // Protected/private/public
@@ -82,10 +83,31 @@ namespace Pars {
                     )
                 )
             ) {
-                return true;
+                if(
+                    ( // Case const
+                        tokens[0].first == keywords[6]
+                        &&
+                        tokens[1].first != keywords[6]
+                        &&
+                        GetKeywordType(tokens[1].first) == 0
+                    )
+                    ||
+                    ( // Case const
+                        tokens[1].first == keywords[6]
+                        &&
+                        tokens[2].first != keywords[6]
+                        &&
+                        GetKeywordType(tokens[2].first) == 0
+                    )
+                ) {
+                    return 2;
+                }
+                else {
+                    return 1;
+                }
             }
             else {
-                return false;
+                return 0;
             }
         }
     };
@@ -106,6 +128,7 @@ int main() {
     };
     std::vector<std::pair<std::string, int>> tokens_to_parse = {
         {"const", 3},
+        {"int", 3},
         {"x", 1},
         {"<<", 3},
         {"1", 0},

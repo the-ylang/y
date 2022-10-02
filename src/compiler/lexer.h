@@ -36,6 +36,12 @@ namespace Lex {
 		// Print all tokens (__debug)
 		void PrintTokens();
 
+		// Output
+		std::vector<std::pair<std::string, int>> tokens;
+
+		// Keywords
+		std::vector<std::string> keywords;
+
 	private:
 		// The input string (code to tokenize)
 		std::string code; // std::string Lexer::code;
@@ -50,12 +56,6 @@ namespace Lex {
 		std::string word_buffer;
 		std::string num_buffer;
 		std::string string_buffer;
-
-		// Keywords
-		std::vector<std::string> keywords;
-
-		// Output
-		std::vector<std::pair<std::string, int>> tokens;
 
 		/*
 		 Int meaning:
@@ -75,8 +75,6 @@ namespace Lex {
 		char GetToken(std::string* actual_token_buffer, bool* is_number, bool* is_string);
 
 		void AddBufferToTokens();
-
-		std::vector<std::string> split(std::string string_to_split, char delimiter);
 	};
 }
 
