@@ -25,6 +25,7 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
 - [ ] Compiler Configuration
   - [x] Lexer
   - [ ] Parser
+  - [ ] Errors
   - [ ] Compiler
 - [ ] Compiler Inputs
   - [ ] File-based input
@@ -38,9 +39,10 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
   - [ ] If, elsif and else statements
   - [ ] Loops (for, while, do while)
   - [ ] OOP Features
+  - [ ] Errors gestion features
 - [ ] System Packages
   - [ ] Basic Input/Output
   - [ ] OS Interactions
   - [ ] JSON Files Interactions
 
-`Roadmap updated on 2022.10.01`
+`Roadmap updated on 2022.10.02`
