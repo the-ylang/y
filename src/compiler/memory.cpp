@@ -36,6 +36,7 @@ namespace Y {
                 bool is_ptr;
             public:
                 Int(std::string value, bool is_constant, bool is_pointer) : DataType(value, is_constant, is_pointer) {
+                    std::cout << "Int" << std::endl;
                     try {
                         val = new int(std::stoi(value));
                         if(std::to_string(*std::get<int*>(val)) != value) {
@@ -72,11 +73,42 @@ namespace Y {
                 }
                 // TODO : Update stoi to all others
                 Int(Int &obj) : DataType(obj.data_value, obj.is_const, obj.is_ptr) {
-                    val = new int(std::stoi(obj.data_value));
+                    try {
+                        val = new int(std::stoi(obj.data_value));
+                        if(std::to_string(*std::get<int*>(val)) != obj.data_value) {
+                            throw exceptions::allocation::IntegerOverflow(obj.data_value); // TODO : Add new error management system AND add new error type
+                            delete std::get<int*>(val);
+                        }
+                    }
+                    catch (...) {
+                        try {
+                            val = new long int(std::stol(obj.data_value));
+                            if(std::to_string(*std::get<long int*>(val)) != obj.data_value) {
+                                throw exceptions::allocation::IntegerOverflow(obj.data_value); // TODO : Add new error management system AND add new error type
+                                delete std::get<long int*>(val);
+                            }
+                        }
+                        catch (...) {
+                            try {
+                                val = new long long int(std::stoll(obj.data_value));
+                                if(std::to_string(*std::get<long long int*>(val)) != obj.data_value) {
+                                    throw exceptions::allocation::IntegerOverflow(obj.data_value); // TODO : Add new error management system AND add new error type
+                                    delete std::get<long long int*>(val);
+                                }
+                            }
+                            catch (std::range_error) {
+                                throw exceptions::allocation::IntegerOverflow(obj.data_value); // TODO : Add new error management system
+                            }
+                            catch (...) {
+                                throw exceptions::allocation::InvalidNumberLitteral(obj.data_value); // TODO : Add new error management system
+                            }
+                        }
+                    }
                     is_const = obj.is_const;
                     is_ptr = obj.is_ptr;
                 }
                 std::variant<int*, long int*, long long int*> GetValue() {
+                    std::cout << "OK INT" << std::endl;
                     return val;
                 }
                 ~Int() {
@@ -319,14 +351,6 @@ namespace Y {
                 bool is_const;
                 bool is_ptr;
 
-                void EndConstructor(std::string value, bool is_cst, bool is_ptr) {
-                    try {
-                        val = new Char(value, is_cst, is_ptr);
-                    } catch (exceptions::allocation::CharOverflow) {
-                        val = new Str(value, is_cst, is_ptr);
-                    }
-                }
-
             public:
                 Undefined(std::string value, bool is_constant, bool is_pointer) : DataType(value, is_constant, is_pointer) {
                     try {
@@ -433,6 +457,7 @@ namespace Y {
                 }
 
                 std::string GetIntValue(Int type) {
+                    std::cout << "OK INT" << std::endl;
                     std::string rt_value;
                     std::variant<int*, long int*, long long int*> dvalue = type.GetValue();
                     try {
@@ -444,7 +469,7 @@ namespace Y {
                             try{
                                 rt_value = std::to_string(*std::get<long long int*>(dvalue));
                             } catch(std::bad_variant_access) {
-                                std::cout << "prob" << std::endl;
+                                throw exceptions::allocation::AllocationFatalError(); // TODO : Add new error management system
                             }
                         }
                     }
@@ -482,39 +507,40 @@ namespace Y {
                 }
 
                 std::string GetUndefinedValue(Undefined type) {
-                    std::string rt_value;
+                    std::string ret_value = "abcdef";
                     std::variant<Int*, Double*, Byte*, Char*, Bool*, Str*> vl = type.GetValue();
                     std::cout << "udf" << std::endl;
                     try {
                         try {
                             std::cout << "OK0" << std::endl;
-                            Int temp = *std::get<Int*>(vl);
-                            rt_value = GetIntValue(temp);
+                            // Int temp = *std::get<Int*>(vl);
+                            ret_value = GetIntValue(*std::get<Int*>(vl));
+                            std::cout << "OK00" << std::endl;
                         } catch (std::bad_variant_access) {
                             try {
                                 std::cout << "OK1" << std::endl;
                                 Double temp = *std::get<Double*>(vl);
-                                rt_value = GetDoubleValue(temp);
+                                ret_value = GetDoubleValue(temp);
                             } catch (std::bad_variant_access) {
                                 try {
                                     std::cout << "OK2" << std::endl;
                                     Byte temp = *std::get<Byte*>(vl);
-                                    rt_value = GetByteValue(temp);
+                                    ret_value = GetByteValue(temp);
                                 } catch (std::bad_variant_access) {
                                     try {
                                         std::cout << "OK3" << std::endl;
                                         Char temp = *std::get<Char*>(vl);
-                                        rt_value = GetCharValue(temp);
+                                        ret_value = GetCharValue(temp);
                                     } catch (std::bad_variant_access) {
                                         try {
                                             std::cout << "OK4" << std::endl;
                                             Bool temp = *std::get<Bool*>(vl);
-                                            rt_value = GetBoolValue(temp);
+                                            ret_value = GetBoolValue(temp);
                                         } catch (std::bad_variant_access) {
                                             try {
                                                 std::cout << "OK5" << std::endl;
                                                 Str temp = *std::get<Str*>(vl);
-                                                rt_value = GetStrValue(temp);
+                                                ret_value = GetStrValue(temp);
                                             } catch (std::bad_variant_access) {
                                                 std::cout << "OK6" << std::endl;
                                                 throw exceptions::allocation::AllocationFatalError(); // TODO : Add new error management system
@@ -528,7 +554,7 @@ namespace Y {
                         throw exceptions::allocation::AllocationFatalError(); // TODO : Add new error management system
                     }
 
-                    return rt_value;
+                    return ret_value;
                 }
 
                 std::string GetGenericValue() {
@@ -537,6 +563,7 @@ namespace Y {
                     try {
                         Int type = *std::get<Int*>(data);
                         return_value = GetIntValue(type);
+                        std::cout << "-" << GetIntValue(type) << "-" << std::endl;
                     } catch(std::bad_variant_access) {
                         try {
                             Double type = *std::get<Double*>(data);
@@ -613,21 +640,21 @@ int main() {
     Y::memory::MemoryManager manager = Y::memory::MemoryManager();
 
     // Create 2 variables
-    Y::memory::data_types::Undefined datavalue = Y::memory::data_types::Undefined("true", false, false);
-    Y::memory::data_types::Int datavalue2 = Y::memory::data_types::Int("564663", false, false);
-    Y::memory::data_types::Double datavalue3 = Y::memory::data_types::Double("564663.3456", false, false);
+    Y::memory::data_types::Undefined datavalue = Y::memory::data_types::Undefined("58575", false, false);
+    //Y::memory::data_types::Int datavalue2 = Y::memory::data_types::Int("564663", false, false);
+    //Y::memory::data_types::Double datavalue3 = Y::memory::data_types::Double("564663.3456", false, false);
 
     // Add the variables to the memory manager
     manager.Add("myUdf", &datavalue);
-    manager.Add("myInt", &datavalue2);
-    manager.Add("myDbl", &datavalue3);
+    //manager.Add("myInt", &datavalue2);
+    //manager.Add("myDbl", &datavalue3);
 
     // Get and print their values
-    std::string datavalue_value = manager.GetValue("myInt");
-    std::cout << "-" << datavalue_value << "-" << std::endl;
+    //std::string datavalue_value = manager.GetValue("myInt");
+    //std::cout << "-" << datavalue_value << "-" << std::endl;
 
-    std::string datavalue_value3 = manager.GetValue("myDbl");
-    std::cout << "-" << datavalue_value3 << "-" << std::endl;
+    //std::string datavalue_value3 = manager.GetValue("myDbl");
+    //std::cout << "-" << datavalue_value3 << "-" << std::endl;
 
     std::string datavalue_value2 = manager.GetValue("myUdf");
     std::cout << "-" << datavalue_value2 << "-" << std::endl;
