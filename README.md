@@ -4,7 +4,7 @@
   </p>
   <h1>The Y Programming Language</h1>
   <div>
-    <img src="https://img.shields.io/badge/version-ALPHA-524fff?style=for-the-badge">
+    <img src="https://img.shields.io/badge/version-INFDEV-524fff?style=for-the-badge">
     <img src="https://img.shields.io/badge/Status-In%20Progress-7aff7a?style=for-the-badge">
     <img src="https://img.shields.io/github/languages/code-size/the-ylang/y?label=size&style=for-the-badge">
     <img src="https://img.shields.io/badge/Made%20in-C++-00599C?logo=cplusplus&style=for-the-badge">
@@ -16,9 +16,9 @@
 
 Y is a simple, compiled, general purpose, based on C++ programming language.
 
-Its syntax is a mix of mutiple other languages, trying to keep the best of each of them with some additional features.
+Its syntax is a mix of mutiple other languages, trying to keep the best of each of them with some amazing additional features.
 
-You can find its documentation [here](https://github.com/The-Y-Programming-Language/y/wiki).
+You can find its documentation [here](https://github.com/The-Y-Programming-Language/y/wiki) (updated SOON).
 
 ## Roadmap
 
@@ -26,6 +26,7 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
   - [x] Lexer
   - [ ] Parser
   - [ ] Errors
+  - [ ] Memory Gestion
   - [ ] Compiler
 - [ ] Compiler Inputs
   - [ ] File-based input
