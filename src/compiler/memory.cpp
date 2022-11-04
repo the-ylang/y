@@ -11,7 +11,7 @@
 #include <map>
 
 
-bool Y::memory::MemoryManager::is_value_in_memory(Y::memory::data_types::variables::variable* value) {
+bool Y::memory::MemoryManager::is_value_in_memory(Y::memory::variable* value) {
     for (auto& i : memory) {
         if (i.second == value) {
             return true;
@@ -20,7 +20,7 @@ bool Y::memory::MemoryManager::is_value_in_memory(Y::memory::data_types::variabl
     return false;
 }
 
-Y::memory::data_types::variables::variable Y::memory::MemoryManager::remove_key_by_value(Y::memory::data_types::variables::variable* value) {
+void Y::memory::MemoryManager::remove_key_by_value(Y::memory::variable* value) {
     for (auto it = memory.begin(); it != memory.end(); ++it) {
         if (it->second == value) {
             memory.erase(it);
@@ -35,39 +35,39 @@ Y::memory::MemoryManager::MemoryManager() {
 Y::memory::MemoryManager::~MemoryManager() {
     std::cout << "Memory Manager Destroyed" << std::endl;
 }
-Y::memory::data_types::variables::variable *Y::memory::MemoryManager::allocate(size_t size, std::string name) {
+Y::memory::variable *Y::memory::MemoryManager::allocate(size_t size, std::string name) {
     if(memory.find(name) != memory.end()) {
         std::cout << "Memory already allocated" << std::endl;
         return nullptr;
     }
-    Y::memory::data_types::variables::variable *ptr = new Y::memory::data_types::variables::variable[size];
+    Y::memory::variable *ptr = new Y::memory::variable[size];
     std::cout << "Allocated " << size << " bytes at " << ptr << std::endl;
-    memory.insert(std::pair<std::string, Y::memory::data_types::variables::variable*>(name, ptr));
+    memory.insert(std::pair<std::string, Y::memory::variable*>(name, ptr));
     return ptr;
 }
-Y::memory::data_types::variables::variable *Y::memory::MemoryManager::allocate(Y::memory::data_types::variables::variable data, std::string name) {
+Y::memory::variable *Y::memory::MemoryManager::allocate(Y::memory::variable data, std::string name) {
     if(memory.find(name) != memory.end()) {
         std::cout << "Memory already allocated" << std::endl;
         return nullptr;
     }
-    Y::memory::data_types::variables::variable *ptr = new Y::memory::data_types::variables::variable;
+    Y::memory::variable *ptr = new Y::memory::variable;
     *ptr = data;
     std::cout << "Allocated (value) " << sizeof(data) << " bytes at " << ptr << std::endl;
-    memory.insert(std::pair<std::string, Y::memory::data_types::variables::variable*>(name, ptr));
+    memory.insert(std::pair<std::string, Y::memory::variable*>(name, ptr));
     return ptr;
 }
-Y::memory::data_types::variables::variable *Y::memory::MemoryManager::update_allocation(Y::memory::data_types::variables::variable data, std::string name) {
+Y::memory::variable *Y::memory::MemoryManager::update_allocation(Y::memory::variable data, std::string name) {
     if(memory.find(name) == memory.end()) {
         std::cout << "Memory not allocated yet" << std::endl;
         return nullptr;
     }
-    Y::memory::data_types::variables::variable *ptr = new Y::memory::data_types::variables::variable;
+    Y::memory::variable *ptr = new Y::memory::variable;
     *ptr = data;
     std::cout << "Updated allocation " << sizeof(data) << " bytes at " << ptr << std::endl;
     memory[name] = ptr;
     return ptr;
 }
-Y::memory::data_types::variables::variable Y::memory::MemoryManager::deallocate(Y::memory::data_types::variables::variable *ptr) {
+void Y::memory::MemoryManager::deallocate(Y::memory::variable *ptr) {
     if(!is_value_in_memory(ptr)) {
         std::cout << "Memory not allocated" << std::endl;
         return;
@@ -76,7 +76,7 @@ Y::memory::data_types::variables::variable Y::memory::MemoryManager::deallocate(
     remove_key_by_value(ptr);
     free(ptr);
 }
-Y::memory::data_types::variables::variable Y::memory::MemoryManager::deallocate(std::string name) {
+void Y::memory::MemoryManager::deallocate(std::string name) {
     if(memory.find(name) == memory.end()) {
         std::cout << "Memory not allocated" << std::endl;
         return;
@@ -85,7 +85,7 @@ Y::memory::data_types::variables::variable Y::memory::MemoryManager::deallocate(
     free(memory[name]);
     memory.erase(name);
 }
-Y::memory::data_types::variables::variable *Y::memory::MemoryManager::get(std::string name) {
+Y::memory::variable *Y::memory::MemoryManager::get(std::string name) {
     if(memory.find(name) == memory.end()) {
         std::cout << "Memory not allocated" << std::endl;
         return nullptr;
@@ -104,13 +104,13 @@ typedef struct variable {
     settings sttngs;
 } variable;
 
-Y::memory::data_types::variables::variable Y::memory::data_types::variables::DataType::get_data() {
+Y::memory::variable Y::memory::data_types::variables::DataType::get_data() {
     return *data_memory_manager.get(data_name);
 }
 std::string Y::memory::data_types::variables::DataType::get_value() {
     return get_data().value;
 }
-Y::memory::data_types::variables::settings Y::memory::data_types::variables::DataType::get_settings() {
+Y::memory::settings Y::memory::data_types::variables::DataType::get_settings() {
     return get_data().sttngs;
 }
 
@@ -123,7 +123,7 @@ Y::memory::data_types::variables::DataType::DataType(Y::memory::MemoryManager me
     data_is_ptr = is_ptr;
 }
 
-Y::memory::data_types::variables::variable Y::memory::data_types::variables::DataType::name_data_register() {
+Y::memory::variable Y::memory::data_types::variables::DataType::name_data_register() {
     settings stgs = {data_type, data_is_const, data_is_ptr};
     variable var = {data_value, stgs};
     data_memory_manager.allocate(var, data_name);

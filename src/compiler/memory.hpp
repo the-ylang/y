@@ -13,94 +13,211 @@
   
     namespace Y {
         namespace memory {
-            // MemoryManager class
+            /**
+             * @brief Structure for data settings
+             */
+            typedef struct settings {
+                std::string type;
+                bool is_const;
+                bool is_ptr;
+            } settings;
+
+            /**
+             * @brief Structure for data
+             */
+            typedef struct variable {
+                std::string value;
+                settings sttngs;
+            } variable;
+
+            /**
+             * @brief Memory Manager
+             */
             class MemoryManager {
             private:
-                // Memory storage map
-                std::map<std::string, data_types::variables::variable*> memory;
+                /**
+                 * @brief Memory storage map
+                 */
+                std::map<std::string, variable*> memory;
                 
-                // Check if a variable is already in memory
-                bool is_value_in_memory(data_types::variables::variable* value);
+                /**
+                 * @brief Check if value is in memory
+                 * 
+                 * @param value The variable to check in memory
+                 * @return true -> The value is in memory
+                 * @return false -> The value is not in memory
+                 */
+                bool is_value_in_memory(variable* value);
     
-                // Remove a key by its value
-                data_types::variables::variable remove_key_by_value(data_types::variables::variable* value);
+                /**
+                 * @brief Remove key by value
+                 * 
+                 * @param value The variable to remove
+                 */
+                void remove_key_by_value(variable* value);
     
             public:
-                // MemoryManager constructor
+                /**
+                 * @brief Construct a new Memory Manager object
+                 */
                 MemoryManager();
-                // MemoryManager destructor
+                /**
+                 * @brief Destroy the Memory Manager object
+                 */
                 ~MemoryManager();
-                // Allocate a memory space with a given size and a given name
-                data_types::variables::variable *allocate(size_t size, std::string name);
-                // Allocata a variable with its data and name
-                data_types::variables::variable *allocate(data_types::variables::variable data, std::string name);
-                // Update a data already in memory
-                data_types::variables::variable *update_allocation(data_types::variables::variable data, std::string name);
-                // Deallocate a variable by its address
-                data_types::variables::variable deallocate(data_types::variables::variable *ptr);
-                // Deallocate a variable by its name
-                data_types::variables::variable deallocate(std::string name);
-                // Get a variable by its name
-                data_types::variables::variable *get(std::string name);
+                /**
+                 * @brief Allocate a memory space with a given size and name
+                 * 
+                 * @param size The size of the memory space
+                 * @param name The name used to access the memory space
+                 * @return variable* -> The pointer to the memory space
+                 */
+                variable *allocate(size_t size, std::string name);
+                /**
+                 * @brief Allocate a memory space with a given value and name
+                 * 
+                 * @param data The value of the memory space
+                 * @param name The name used to access the memory space
+                 * @return variable* -> The pointer to the memory space
+                 */
+                variable *allocate(variable data, std::string name);
+                /**
+                 * @brief Update the value of a memory space
+                 * 
+                 * @param data The new value of the memory space
+                 * @param name The name used to access the memory space
+                 * @return variable* -> The pointer to the memory space
+                 */
+                variable *update_allocation(variable data, std::string name);
+                /**
+                 * @brief Deallocate a memory space with a given adress
+                 * 
+                 * @param ptr The pointer to the memory space
+                 */
+                void deallocate(variable *ptr);
+                /**
+                 * @brief Deallocate a memory space with a given name
+                 * 
+                 * @param name The name used to access the memory space
+                 */
+                void deallocate(std::string name);
+                /**
+                 * @brief Get the value of a memory space with its name
+                 * 
+                 * @param name The name used to access the memory space
+                 * @return variable* -> The pointer to the memory space
+                 */
+                variable *get(std::string name);
             };
             namespace data_types {
                 namespace variables {
-                    // Variable settings type struct
-                    typedef struct settings {
-                        std::string type;
-                        bool is_const;
-                        bool is_ptr;
-                    } settings;
-    
-                    // Variable type struct
-                    typedef struct variable {
-                        std::string value;
-                        settings sttngs;
-                    } variable;
-                    
-                    // DataType class
+                    /**
+                     * @brief Structure for data types
+                     */
                     class DataType {
                     private:
-                        // Memory manager  
+                        /**
+                         * @brief A memory manager from DataType
+                         */
                         MemoryManager data_memory_manager;
-                        // Data name
+                        /**
+                         * @brief The name of the data
+                         */
                         std::string data_name;
-                        // Data type
+                        /**
+                         * @brief The type of the data
+                         */
                         std::string data_type;
-                        // Data value
+                        /**
+                         * @brief The value of the data
+                         */
                         std::string data_value;
-                        // Is the data a constant
+                        /**
+                         * @brief Is the data a constant
+                         */
                         bool data_is_const;
-                        // Is the data a pointer
+                        /**
+                         * @brief Is the data a pointer
+                         */
                         bool data_is_ptr;
     
-                        // Get all datas from a variable
+                        /**
+                         * @brief Get the data
+                         * 
+                         * @return variable -> The data
+                         */
                         variable get_data();
-                        // Get variable value
+                        /**
+                         * @brief Get the value of the data
+                         * 
+                         * @return std::string -> The value of the data
+                         */
                         std::string get_value();
+                        /**
+                         * @brief Get the settings of the data
+                         * 
+                         * @return settings -> The settings of the data
+                         */
                         settings get_settings();
     
                     public:
-                        // DataType class constructor
+                        /**
+                         * @brief Construct a new Data Type object
+                         * 
+                         * @param name The name of the data
+                         * @param type The type of the data
+                         * @param value The value of the data
+                         * @param is_const Is the data a constant
+                         * @param is_ptr Is the data a pointer
+                         */
                         DataType(MemoryManager memory_manager, std::string name, std::string type, std::string value, bool is_const, bool is_ptr);
     
-                        // Register a new variable
+                        /**
+                         * @brief Register a new memory space with a given value
+                         * 
+                         * @return variable -> The initialized data
+                         */
                         variable name_data_register();
     
-                        // Register a new memory space with a given size
+                        /**
+                         * @brief Register a new memory space with a given size 
+                         */
                         void size_data_register();
     
-                        // Get the type of the variable
+                        /**
+                         * @brief Get the type of the variable
+                         * 
+                         * @return std::string -> The type of the variable
+                         */
                         std::string get_type(settings stgs);
-                        // Gets if the variable is a contant
+                        /**
+                         * @brief Get if the variable is a constant
+                         * 
+                         * @return true -> The variable is a constant
+                         * @return false -> The variable is not a constant
+                         */
                         bool get_is_const(settings stgs);
-                        // Gets if the variable is a pointer
+                        /**
+                         * @brief Get if the variable is a pointer
+                         * 
+                         * @return true -> The variable is a pointer
+                         * @return false -> The variable is not a pointer
+                         */
                         bool get_is_ptr(settings stgs);
     
-                        // Update the value of the variable
+                        /**
+                         * @brief Updates the value / settings of the variable
+                         * 
+                         * @param type The new data type
+                         * @param value The new data value
+                         * @param is_const The new data is_const
+                         * @param is_ptr The new data is_ptr
+                         */
                         void update_data(std::string type, std::string value, bool is_const, bool is_ptr);
     
-                        // Delete the variable
+                        /**
+                         * @brief Deletes the variable
+                         */
                         void delete_data();
                     };
                 }
