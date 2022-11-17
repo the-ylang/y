@@ -1,31 +1,33 @@
 use stdio;
-use os as "";
 
 /*
-    Multiple command line
+	Multiline comment
 */
+// Singleline comment
 
-// Single comment line
-
-void fn invert(udf .nb1, udf .nb2){
-    udf temp;
-    temp = .nb1;
-    .nb1 = .nb2;
-    .nb2 = temp;
+fn int add(int num, int sec_num) {
+	return num + sec_num;
 }
 
-int number1 = 12;
-int number2 = 65;
+fn void invert(udf var, udf var_sec) {
+	udf temp;
+	temp = var;
+	var = var_sec;
+	var_sec = temp;
+}
 
-udf var1 = 'Y';
-udf var2 = "Y is the best programming language !";
+fn main(str[] args) {
+	// Declarations
+	int number1 = 12;
+	int number2 = 21;
+	int sum = add(number1, number2);
+	udf var1 = true;
+	udf var2 = "The Y Programming Language";
 
-stdio.out(number1, number2);
-invert(&number1, &number2);
-stdio.out(number1, number2);
-
-stdio.out(get_device_name()) # os.get_device_name()
-
-stdio.out(var1, var2);
-invert(&var1, &var1);
-stdio.out(var1, var2);
+	// First output
+	outln("{number1} + {number2} = {sum}"); // stdio.outln(); if use stdio.outln();
+	// Invert variables + outputs
+	outln("{var1} - {var2}");
+	invert(.var1, .var2);
+	outln("{var1} - {var2}");
+}
