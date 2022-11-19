@@ -14,20 +14,21 @@
     namespace Y {
         namespace memory {
             /**
-             * @brief Structure for data settings
-             */
-            typedef struct settings {
-                std::string type;
-                bool is_const;
-                bool is_ptr;
-            } settings;
-
-            /**
              * @brief Structure for data
              */
             typedef struct variable {
+                /**
+                 * @brief The data
+                 */
                 std::string value;
-                settings sttngs;
+                /**
+                 * @brief The type of the data
+                 */
+                std::string type;
+				/**
+				 * @brief If the data is a constant
+				 */
+				bool is_constant;
             } variable;
 
             /**
@@ -109,119 +110,6 @@
                  */
                 variable *get(std::string name);
             };
-            namespace data_types {
-                namespace variables {
-                    /**
-                     * @brief Structure for data types
-                     */
-                    class DataType {
-                    private:
-                        /**
-                         * @brief A memory manager from DataType
-                         */
-                        MemoryManager data_memory_manager;
-                        /**
-                         * @brief The name of the data
-                         */
-                        std::string data_name;
-                        /**
-                         * @brief The type of the data
-                         */
-                        std::string data_type;
-                        /**
-                         * @brief The value of the data
-                         */
-                        std::string data_value;
-                        /**
-                         * @brief Is the data a constant
-                         */
-                        bool data_is_const;
-                        /**
-                         * @brief Is the data a pointer
-                         */
-                        bool data_is_ptr;
-    
-                        /**
-                         * @brief Get the data
-                         * 
-                         * @return variable -> The data
-                         */
-                        variable get_data();
-                        /**
-                         * @brief Get the value of the data
-                         * 
-                         * @return std::string -> The value of the data
-                         */
-                        std::string get_value();
-                        /**
-                         * @brief Get the settings of the data
-                         * 
-                         * @return settings -> The settings of the data
-                         */
-                        settings get_settings();
-    
-                    public:
-                        /**
-                         * @brief Construct a new Data Type object
-                         * 
-                         * @param name The name of the data
-                         * @param type The type of the data
-                         * @param value The value of the data
-                         * @param is_const Is the data a constant
-                         * @param is_ptr Is the data a pointer
-                         */
-                        DataType(MemoryManager memory_manager, std::string name, std::string type, std::string value, bool is_const, bool is_ptr);
-    
-                        /**
-                         * @brief Register a new memory space with a given value
-                         * 
-                         * @return variable -> The initialized data
-                         */
-                        variable name_data_register();
-    
-                        /**
-                         * @brief Register a new memory space with a given size 
-                         */
-                        void size_data_register();
-    
-                        /**
-                         * @brief Get the type of the variable
-                         * 
-                         * @return std::string -> The type of the variable
-                         */
-                        std::string get_type(settings stgs);
-                        /**
-                         * @brief Get if the variable is a constant
-                         * 
-                         * @return true -> The variable is a constant
-                         * @return false -> The variable is not a constant
-                         */
-                        bool get_is_const(settings stgs);
-                        /**
-                         * @brief Get if the variable is a pointer
-                         * 
-                         * @return true -> The variable is a pointer
-                         * @return false -> The variable is not a pointer
-                         */
-                        bool get_is_ptr(settings stgs);
-    
-                        /**
-                         * @brief Updates the value / settings of the variable
-                         * 
-                         * @param type The new data type
-                         * @param value The new data value
-                         * @param is_const The new data is_const
-                         * @param is_ptr The new data is_ptr
-                         */
-                        void update_data(std::string type, std::string value, bool is_const, bool is_ptr);
-    
-                        /**
-                         * @brief Deletes the variable
-                         */
-                        void delete_data();
-                    };
-                }
-            }
         }
     }
 
