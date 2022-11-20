@@ -65,12 +65,10 @@ Y::memory::MemoryManager::update_allocation(Y::memory::variable data,
     std::cout << "Memory not allocated yet" << std::endl;
     return nullptr;
   }
-  Y::memory::variable *ptr = new Y::memory::variable;
-  *ptr = data;
-  std::cout << "Updated allocation " << sizeof(data) << " bytes at " << ptr
+	*memory[name] = data;
+  std::cout << "Updated allocation " << sizeof(data) << " bytes at " << memory[name]
             << std::endl;
-  memory[name] = ptr;
-  return ptr;
+  return memory[name];
 }
 void Y::memory::MemoryManager::deallocate(Y::memory::variable *ptr) {
   if (!is_value_in_memory(ptr)) {
