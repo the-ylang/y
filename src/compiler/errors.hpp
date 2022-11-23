@@ -51,6 +51,7 @@
 					Warning(int level);
 				};
 				class UnusedValueWarning : public Warning {
+				public:
 					UnusedValueWarning(
 						std::string line,
 						int line_number,
@@ -65,6 +66,7 @@
 					Information();
 				};
 				class UnusedFileImport : public Information {
+				public:
 					UnusedFileImport(
 						std::string line,
 						int line_number,
