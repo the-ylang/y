@@ -1,75 +1,55 @@
-#include "errors.h"
-
 #include <iostream>
-#include <string>
 
-namespace Y {
-    namespace exceptions {
-        namespace naming {
-            InvalidNameKeyword::InvalidNameKeyword(const std::string name)
-                : m_msg("The name " + name + " is not valid because it is a keyword")
-            {}
+#include "errors.hpp"
 
-            const char* InvalidNameKeyword::what() const throw() {
-                return m_msg.c_str();
-            }
-        }
-        namespace allocation {
-            InvalidNumberLitteral::InvalidNumberLitteral(const std::string num_buffer)
-                : m_msg("The number " + num_buffer + " has an invalid litteral")
-            {}
+// General
 
-            const char* InvalidNumberLitteral::what() const throw() {
-                return m_msg.c_str();
-            }
+Y::outputs::Output::Output() { return; }
 
-            InvalidBooleanValue::InvalidBooleanValue(const std::string num_buffer)
-                : m_msg("The boolean " + num_buffer + " has an invalid value")
-            {}
+void Y::outputs::Output::Show(Y::outputs::OUT outpt, std::string type) {
+  std::cout << type << " : [" << outpt.line_number << "] " << outpt.message
+            << " at : "
+            << outpt.line.substr(outpt.start_to_end[0], outpt.start_to_end[1] - outpt.start_to_end[0])
+            << std::endl;
+}
 
-            const char* InvalidBooleanValue::what() const throw() {
-                return m_msg.c_str();
-            }
+// Errors
 
-            IntegerOverflow::IntegerOverflow(const std::string value)
-                : m_msg("The value " + value + " is too big to be stored as an integer (8 bytes)")
-            {}
+Y::outputs::errors::Error::Error(int level) : Output() { error_level = level; }
 
-            const char* IntegerOverflow::what() const throw() {
-                return m_msg.c_str();
-            }
-            
-            DoubleOverflow::DoubleOverflow(const std::string value)
-                : m_msg("The value " + value + " is too big to be stored as a double (12 bytes)")
-            {}
+Y::outputs::errors::SyntaxError::SyntaxError(std::string line, int line_number,
+                                             int start_to_end[2],
+                                             int error_level)
+    : Error(error_level) {
+  Show({"Invalid syntax", line, line_number, *start_to_end}, "SyntaxError");
+}
 
-            const char* DoubleOverflow::what() const throw() {
-                return m_msg.c_str();
-            }
+Y::outputs::errors::InvalidLitteralError::InvalidLitteralError(
+    std::string line, int line_number, int start_to_end[2], int error_level)
+    : Error(error_level) {
+  Show({"Invalid litteral", line, line_number, *start_to_end},
+       "InvalidLitteralError");
+}
 
-            ByteOverflow::ByteOverflow(const std::string value)
-                : m_msg("The value " + value + " is too big to be stored as a byte (1 byte)")
-            {}
+// Warnings
 
-            const char* ByteOverflow::what() const throw() {
-                return m_msg.c_str();
-            }
+Y::outputs::warnings::Warning::Warning(int level) : Output() {
+  warn_level = level;
+}
 
-            CharOverflow::CharOverflow(const std::string value)
-                : m_msg("The value " + value + " is too big to be stored as a char (length 1)")
-            {}
+Y::outputs::warnings::UnusedValueWarning::UnusedValueWarning(
+    std::string line, int line_number, int start_to_end[2], int warn_level)
+    : Warning(warn_level) {
+  Show({"Value declared but never used", line, line_number, *start_to_end},
+       "UnusedValueWarning");
+}
 
-            const char* CharOverflow::what() const throw() {
-                return m_msg.c_str();
-            }
+// Informations
 
-            AllocationFatalError::AllocationFatalError()
-                : m_msg("Fatal error with the allocation system")
-            {}
+Y::outputs::informations::Information::Information() : Output() {}
 
-            const char* AllocationFatalError::what() const throw() {
-                return m_msg.c_str();
-            }
-        }
-    }
+Y::outputs::informations::UnusedFileImport::UnusedFileImport(
+    std::string line, int line_number, int start_to_end[2]) {
+  Show({"File imported but never used", line, line_number, *start_to_end},
+       "UnusedFileImport");
 }

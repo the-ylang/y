@@ -14,20 +14,24 @@
 
 ## Description
 
-Y is a simple, compiled, general purpose, based on C++ programming language.
+Y is a transpiled/compiled, general purpose, based on C++ programming language.
 
 Its syntax is a mix of mutiple other languages, trying to keep the best of each of them with some amazing additional features.
 
-You can find its documentation [here](https://github.com/The-Y-Programming-Language/y/wiki) (updated SOON).
+
+## [Documentation](https://github.com/The-Y-Programming-Language/y/wiki)
 
 ## Roadmap
+
+![chart](http://www.yarntomato.com/percentbarmaker/button.php?barPosition=10&leftFill=70aeff)
 
 - [ ] Compiler Configuration
   - [x] Lexer
   - [ ] Parser
   - [ ] Errors
-  - [ ] Memory Gestion
+  - [x] Memory Gestion
   - [ ] Compiler
+  - [ ] C++ Transpiler
 - [ ] Compiler Inputs
   - [ ] File-based input
   - [ ] Console-based input
@@ -46,4 +50,4 @@ You can find its documentation [here](https://github.com/The-Y-Programming-Langu
   - [ ] OS Interactions
   - [ ] JSON Files Interactions
 
-`Roadmap updated on 2022.10.02`
+`Roadmap updated on 2022.11.21`
