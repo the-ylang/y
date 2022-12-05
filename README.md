@@ -16,7 +16,8 @@
 
 Y is a transpiled/compiled, general purpose, based on C++ programming language.
 
-Its syntax is a mix of mutiple other languages, trying to keep the best of each of them with some additional features.
+Its syntax is a mix of mutiple other languages, trying to keep the best of each of them with some amazing additional features.
+
 
 ## [Documentation](https://github.com/The-Y-Programming-Language/y/wiki)
 
